@@ -3,4 +3,10 @@
     <string name="zadej">Zadej registrační číslo a vyber, jestli chceš spočítat statistiku, nebo zobrazit odběhnuté závody.</string>
     <string name="show_statistics">Ukaž statistiku</string>
     <string name="ukaz_zavody">Ukaž závody</string>
+    <string name="statActivity_name">Statistika</string>
+    <string name="editReg_hint">Zadej registrační číslo</string>
+    <string name="no_result">No results</string>
+    <string name="loading">Loading...</string>
+    <string name="no_search_term">Please enter a search term</string>
+    <string name="no_network">Please check your network connection and try again.</string>
 </resources>

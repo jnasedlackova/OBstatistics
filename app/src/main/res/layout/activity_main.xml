@@ -11,9 +11,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="24dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/zadej"
         app:layout_constraintBottom_toTopOf="@+id/editRegistration"
         app:layout_constraintHorizontal_bias="0.6"
@@ -25,33 +25,51 @@
         android:id="@+id/editRegistration"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="96dp"
         android:ems="10"
+        android:hint="@string/editReg_hint"
         android:inputType="textCapCharacters"
-        android:textStyle="bold"
         android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textZadej" />
 
-    <Button
-        android:id="@+id/buttonStatistics"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/show_statistics"
-        app:layout_constraintBottom_toTopOf="@+id/buttonShowComp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/buttonShowComp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/ukaz_zavody"
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRegistration">
+
+        <Button
+            android:id="@+id/buttonStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:onClick="launchStatisticsActivity"
+            android:text="@string/show_statistics"
+            app:layout_constraintBottom_toTopOf="@+id/buttonShowComp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editRegistration" />
+
+        <Button
+            android:id="@+id/buttonShowComp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="@string/ukaz_zavody"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
