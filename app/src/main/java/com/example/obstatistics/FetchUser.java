@@ -27,7 +27,7 @@ public class FetchUser extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        return NetworkUtils.getUserInfo(strings[0]);
+        return NetworkUtils.getUser(strings[0]);
     }
 
     @Override
