@@ -2,7 +2,7 @@ package com.example.obstatistics.Dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class InputJson {
+public class UserJson {
 
     @JsonProperty("Data")
     private User user;
@@ -17,7 +17,7 @@ public class InputJson {
 
     @Override
     public String toString() {
-        return "InputJson{" +
+        return "UserJson{" +
                 "user=" + user +
                 '}';
     }

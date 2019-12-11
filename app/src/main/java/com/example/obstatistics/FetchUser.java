@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.obstatistics.Dto.InputJson;
+import com.example.obstatistics.Dto.UserJson;
 import com.example.obstatistics.Dto.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.lang.ref.WeakReference;
 
-public class FetchUser extends AsyncTask<String, Void, String> {
+public class FetchUser extends AsyncTask<String, Void, User> {
 
     private static final String LOG_TAG =
             NetworkUtils.class.getSimpleName();
@@ -26,19 +26,23 @@ public class FetchUser extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... strings) {
-        return NetworkUtils.getUser(strings[0]);
+    protected User doInBackground(String... strings) {
+        String string = NetworkUtils.getUser(strings[0]);
+        ObjectMapper mapper = new ObjectMapper();
+        User user = null;
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            UserJson userJson = mapper.readValue(string, UserJson.class);
+            user = userJson.getUser();
+            Log.d(LOG_TAG, user.toString());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
-    protected void onPostExecute(String string) {
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        try {
-            InputJson inputJson = mapper.readValue(string, InputJson.class);
-            User user = inputJson.getUser();
-            Log.d(LOG_TAG, user.toString());
+    protected void onPostExecute(User user) {
             String firstName = user.getFirstName();
             String secondName = user.getSecondName();
             if (firstName != null && secondName != null) {
@@ -48,10 +52,5 @@ public class FetchUser extends AsyncTask<String, Void, String> {
                 mFirstNameText.get().setText(R.string.no_result);
                 mSecondNameText.get().setText("");
             }
-        } catch (JsonProcessingException e) {
-            mFirstNameText.get().setText(R.string.no_result);
-            mSecondNameText.get().setText("");
-            e.printStackTrace();
-        }
     }
 }
