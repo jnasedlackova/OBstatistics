@@ -1,12 +1,14 @@
-package com.example.obstatistics;
+package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.obstatistics.Dto.userEntryJson;
+import com.example.obstatistics.Dto.UserEntryJson;
 import com.example.obstatistics.Dto.UserEntry;
 import com.example.obstatistics.Dto.UserEntryOutput;
+import com.example.obstatistics.NetworkUtils;
+import com.example.obstatistics.StatisticsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,18 +19,17 @@ import java.util.List;
 
 public class FetchUserEntries extends AsyncTask<String, Void, UserEntryOutput> {
 
-    private static final String LOG_TAG =
-            NetworkUtils.class.getSimpleName();
+    private static final String LOG_TAG = FetchUserEntries.class.getSimpleName();
 
     private WeakReference<TextView> mClubText;
     private WeakReference<TextView> maSIText;
-//    private WeakReference<TextView> mFeeText;
 
-//    FetchUserEntries(TextView firstNameText, TextView secondNameText, TextView feeText) {
-        FetchUserEntries(TextView firstNameText, TextView secondNameText) {
+    public StatisticsService statisticsService;
+
+        public FetchUserEntries(TextView firstNameText, TextView secondNameText, StatisticsService statisticsService) {
         this.mClubText = new WeakReference<>(firstNameText);
         this.maSIText = new WeakReference<>(secondNameText);
-//        this.mFeeText = new WeakReference<>(feeText);
+        this.statisticsService = statisticsService;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class FetchUserEntries extends AsyncTask<String, Void, UserEntryOutput> {
         List<UserEntry> userEntryList = new ArrayList<>();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
-            userEntryJson inputUserJson = mapper.readValue(string, userEntryJson.class);
+            UserEntryJson inputUserJson = mapper.readValue(string, UserEntryJson.class);
             for (UserEntry value : inputUserJson.getInputEntries().values()) {
                 userEntryList.add(value);
             }
@@ -54,20 +55,11 @@ public class FetchUserEntries extends AsyncTask<String, Void, UserEntryOutput> {
             fee += userEntry.getFee();
         }
         userEntryOutput.setFee(fee);
-        Log.d(LOG_TAG, "UserEntryOutput: " + userEntryOutput.toString());
         return userEntryOutput;
     }
 
     @Override
     protected void onPostExecute(UserEntryOutput userEntryOutput) {
-        String firstName = userEntryOutput.getFee().toString();
-        String secondName = userEntryOutput.getSi();
-        if (firstName != null && secondName != null) {
-            mClubText.get().setText(firstName);
-            maSIText.get().setText(secondName);
-        } else {
-            mClubText.get().setText(R.string.no_result);
-            maSIText.get().setText("");
-        }
+        statisticsService.readUserEntryResult(userEntryOutput);
     }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 
-public class userEntryJson {
+public class UserEntryJson {
 
     @JsonProperty("Data")
     private Map<String, UserEntry> inputEntries = new HashMap<>();
@@ -20,7 +20,7 @@ public class userEntryJson {
 
     @Override
     public String toString() {
-        return "userEntryJson{" +
+        return "UserEntryJson{" +
                 "inputEntries=" + inputEntries +
                 '}';
     }

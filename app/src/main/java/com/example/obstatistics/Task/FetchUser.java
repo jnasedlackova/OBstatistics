@@ -1,4 +1,4 @@
-package com.example.obstatistics;
+package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import com.example.obstatistics.Dto.UserJson;
 import com.example.obstatistics.Dto.User;
+import com.example.obstatistics.NetworkUtils;
+import com.example.obstatistics.R;
+import com.example.obstatistics.StatisticsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,14 +18,17 @@ import java.lang.ref.WeakReference;
 public class FetchUser extends AsyncTask<String, Void, User> {
 
     private static final String LOG_TAG =
-            NetworkUtils.class.getSimpleName();
+            FetchUser.class.getSimpleName();
 
     private WeakReference<TextView> mFirstNameText;
     private WeakReference<TextView> mSecondNameText;
 
-    FetchUser(TextView firstNameText, TextView secondNameText) {
+    StatisticsService statisticsService;
+
+    public FetchUser(TextView firstNameText, TextView secondNameText, StatisticsService statisticsService) {
         this.mFirstNameText = new WeakReference<>(firstNameText);
         this.mSecondNameText = new WeakReference<>(secondNameText);
+        this.statisticsService = statisticsService;
     }
 
     @Override
@@ -52,5 +58,7 @@ public class FetchUser extends AsyncTask<String, Void, User> {
                 mFirstNameText.get().setText(R.string.no_result);
                 mSecondNameText.get().setText("");
             }
+        statisticsService.readUserResult(user);
+        Log.d(LOG_TAG, "I am in FetchUse: " + user.toString());
     }
 }

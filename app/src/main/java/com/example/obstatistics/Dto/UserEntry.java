@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserEntry {
 
-    @JsonProperty("eventID")
+    @JsonProperty("EventID")
     private Long competitionId;
     @JsonProperty("ClubID")
     private Long clubId;

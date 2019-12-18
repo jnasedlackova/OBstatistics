@@ -21,7 +21,7 @@ public class NetworkUtils {
     private static final String EVENT_ID = "eventid";
     private static final String ID = "id";
 
-    static String getUser(String userRegNumber) {
+    public static String getUser(String userRegNumber) {
         Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(FORMAT, "json")
                 .appendQueryParameter(METHOD, "getUser")
@@ -30,7 +30,7 @@ public class NetworkUtils {
         return connectAndGetJsonString(builtURI);
     }
 
-    static String getUserEventEntries(String userId) {
+    public static String getUserEventEntries(String userId) {
         Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(FORMAT, "json")
                 .appendQueryParameter(METHOD, "getUserEventEntries")
@@ -39,16 +39,16 @@ public class NetworkUtils {
         return connectAndGetJsonString(builtURI);
     }
 
-    static String getEventResults(String eventId) {
+    public static String getEventResults(String eventId) {
         Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(FORMAT, "json")
-                .appendQueryParameter(METHOD, "getUserEventEntries")
+                .appendQueryParameter(METHOD, "getEventResults")
                 .appendQueryParameter(EVENT_ID, eventId)
                 .build();
         return connectAndGetJsonString(builtURI);
     }
 
-    static String getEvent(String eventId) {
+    public static String getEvent(String eventId) {
         Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(FORMAT, "json")
                 .appendQueryParameter(METHOD, "getUserEvent")
