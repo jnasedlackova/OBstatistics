@@ -51,7 +51,7 @@ public class NetworkUtils {
     public static String getEvent(String eventId) {
         Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(FORMAT, "json")
-                .appendQueryParameter(METHOD, "getUserEvent")
+                .appendQueryParameter(METHOD, "getEvent")
                 .appendQueryParameter(ID, eventId)
                 .build();
         return connectAndGetJsonString(builtURI);

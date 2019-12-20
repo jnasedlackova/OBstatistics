@@ -58,7 +58,7 @@ public class FetchUser extends AsyncTask<String, Void, User> {
                 mFirstNameText.get().setText(R.string.no_result);
                 mSecondNameText.get().setText("");
             }
-        statisticsService.readUserResult(user);
+        statisticsService.readUser(user);
         Log.d(LOG_TAG, "I am in FetchUse: " + user.toString());
     }
 }

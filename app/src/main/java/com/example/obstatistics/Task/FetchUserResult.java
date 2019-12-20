@@ -1,7 +1,6 @@
 package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -50,7 +49,7 @@ public class FetchUserResult extends AsyncTask<String, Void, UserResult> {
         }
         for (UserResult result : userResultList) {
              if (result.getRegistration().equals(registration.toUpperCase())) {
-                return result;
+                 return result;
             }
         }
         return null;
@@ -60,6 +59,6 @@ public class FetchUserResult extends AsyncTask<String, Void, UserResult> {
     protected void onPostExecute(UserResult userResult) {
         if (numberOfTasks <= countTasks)
             spinner.setVisibility(View.GONE);
-        statisticsService.readUserResult(userResult);
+        statisticsService.readUser(userResult);
     }
 }

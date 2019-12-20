@@ -6,6 +6,8 @@ public class UserEntry {
 
     @JsonProperty("EventID")
     private Long competitionId;
+    @JsonProperty("ClassID")
+    private Long classId;
     @JsonProperty("ClubID")
     private Long clubId;
     @JsonProperty("Fee")
@@ -19,6 +21,14 @@ public class UserEntry {
 
     public void setCompetitionId(Long competitionId) {
         this.competitionId = competitionId;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
     }
 
     public Long getClubId() {
@@ -49,8 +59,9 @@ public class UserEntry {
     public String toString() {
         return "UserEntry{" +
                 "competitionId=" + competitionId +
+                ", classId=" + classId +
                 ", clubId=" + clubId +
-                ", fee='" + fee + '\'' +
+                ", fee=" + fee +
                 ", si='" + si + '\'' +
                 '}';
     }

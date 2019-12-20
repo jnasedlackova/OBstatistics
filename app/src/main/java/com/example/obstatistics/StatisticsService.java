@@ -6,16 +6,22 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.obstatistics.Dto.Competition;
+import com.example.obstatistics.Dto.CompetitionAndId;
 import com.example.obstatistics.Dto.OutputDto;
 import com.example.obstatistics.Dto.User;
 import com.example.obstatistics.Dto.UserEntryOutput;
 import com.example.obstatistics.Dto.UserResult;
 import com.example.obstatistics.Dto.UserResultOutput;
+import com.example.obstatistics.Task.FetchCompetition;
 import com.example.obstatistics.Task.FetchUser;
 import com.example.obstatistics.Task.FetchUserEntries;
 import com.example.obstatistics.Task.FetchUserResult;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,7 +34,7 @@ public class StatisticsService {
     private String registration;
     private Long competitionId;
     private UserResult userResult;
-    private Map<Long,Long> competitionAndClassIds = new HashMap<>();
+    private List<CompetitionAndId> competitionAndClassIds = new ArrayList<>();
     private Set<String> listOfClasses = new TreeSet<>();
     private int countEvents = 0;
     private int medalPlaces = 0;
@@ -39,21 +45,34 @@ public class StatisticsService {
     private int disk = 0;
     public String totalTime = "";
     public String totalLoss = "";
+    private Competition competition;
+    private Double totalDistance = 0.0;
+    private Long totalClimbing = 0l;
+    private Long totalControls = 0l;
     private static final String LOG_TAG = StatisticsService.class.getSimpleName();
     private TextView mFirstNameText;
     private TextView mSecondNameText;
+    private TextView mThirdNameText;
+    private TextView mFourthNameText;
     private FetchUser fetchUser;
     private FetchUserEntries fetchUserEntries;
     private FetchUserResult fetchUserResult;
+    private FetchCompetition fetchCompetition;
+    private int numberOfTasks;
+    private int counter;
 
 
     public OutputDto getOutputDto(NetworkInfo networkInfo,
                                   String registration,
                                   TextView mFirstNameText,
                                   TextView mSecondNameText,
+                                  TextView mThirdNameText,
+                                  TextView mFourthNameText,
                                   ProgressBar spinner) {
         this.registration = registration;
         this.spinner = spinner;
+        this.mThirdNameText = mThirdNameText;
+        this.mFourthNameText = mFourthNameText;
         spinner.setVisibility(View.VISIBLE);
         if (networkInfo != null && networkInfo.isConnected()
                 && registration.length() != 0) {
@@ -79,7 +98,7 @@ public class StatisticsService {
         }
     }
 
-    public void readUserResult(User user) {
+    public void readUser(User user) {
         Log.d(LOG_TAG, "User: " + user.toString());
         outputDto.setUser(user);
         getUserEntry();
@@ -87,7 +106,7 @@ public class StatisticsService {
 
     private void getUserEntry() {
         try {
-            fetchUserEntries = new FetchUserEntries(mFirstNameText, mSecondNameText, this);
+            fetchUserEntries = new FetchUserEntries(mThirdNameText, this);
             fetchUserEntries.execute(outputDto.getUser().getId().toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,28 +119,59 @@ public class StatisticsService {
     }
 
     private void getUserResult() {
-        String numberOfTasks = String.valueOf(outputDto.getUserEntryOutput().getCompetitionIdList().size());
+        numberOfTasks = outputDto.getUserEntryOutput().getCompetitionIdList().size();
+        Log.d(LOG_TAG, "number of tasks: " + numberOfTasks);
         for (Long competitionId : outputDto.getUserEntryOutput().getCompetitionIdList()) {
             try {
                 this.competitionId = competitionId;
                 fetchUserResult = new FetchUserResult(this, spinner);
-                fetchUserResult.execute(competitionId.toString(), registration, numberOfTasks);
+                fetchUserResult.execute(competitionId.toString(), registration, String.valueOf(numberOfTasks));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void readUserResult(UserResult userResult) {
+    private void getCompetition() {
+        List<CompetitionAndId> competitionAndIdList = outputDto.getUserEntryOutput().getCompetitionAndIdList();
+//        String numberOfTasks = String.valueOf(outputDto.getUserResultOutput().getCompetitionAndClassIds().size());
+        if (!competitionAndIdList.isEmpty()) {
+            Log.d(LOG_TAG, "CompetitionAndClassIds: " + competitionAndIdList.toString());
+            for(CompetitionAndId entry : competitionAndIdList) {
+                try {
+                    fetchCompetition = new FetchCompetition(this, spinner);
+                    fetchCompetition.execute(entry.getCompetitionId().toString(), entry.getClassId().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void readUser(UserResult userResult) {
         if (userResult != null)
             Log.d(LOG_TAG, "UserResult: " + userResult.toString());
         this.userResult = userResult;
         addUserResult(userResult);
+        counter++;
+        Log.d(LOG_TAG, "counter: " + counter);
+        if (counter >= numberOfTasks) {
+            getCompetition();
+        }
     }
 
-    private void addUserResult(UserResult userResult) {
+    public void readCompetition(Competition competition) {
+        if (competition != null)
+            Log.d(LOG_TAG, "Competition: " + competition.toString());
+        this.competition = competition;
+        addCompetition(competition);
+    }
+
+    private CompetitionAndId addUserResult(UserResult userResult) {
+        CompetitionAndId competitionAndId = new CompetitionAndId();
         if (userResult != null && userResult.getTime() != "") {
-            competitionAndClassIds.put(competitionId, userResult.getClassId());
+            competitionAndId.setClassId(userResult.getClassId());
+            Log.d(LOG_TAG, "CompetitionAndId: " + competitionAndId.toString());
             listOfClasses.add(userResult.getClassComp());
             countEvents += 1;
             if (userResult.getPlace() >= 1 && userResult.getPlace() < 4) {
@@ -147,6 +197,21 @@ public class StatisticsService {
             Log.d(LOG_TAG, "totalTime: " + totalTime);
             Log.d(LOG_TAG, "totalLoss: " + totalLoss);
             Log.d(LOG_TAG, "diskEvents: " + disk);
+            mFourthNameText.setText(totalTime);
+        }
+        return competitionAndId;
+    }
+
+    private void addCompetition(Competition competition) {
+        if (competition != null) {
+            totalDistance += competition.getDistance();
+            totalClimbing += competition.getClimbing();
+            totalControls += competition.getControls();
+            Log.d(LOG_TAG, "Distance: " + totalDistance);
+            Log.d(LOG_TAG, "Climbing: " + totalClimbing);
+            Log.d(LOG_TAG, "Controls: " + totalControls);
+            mFourthNameText.setText(totalTime);
+
         }
     }
 

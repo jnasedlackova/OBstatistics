@@ -19,6 +19,8 @@ public class StatisticsActivity extends AppCompatActivity {
     private static final String LOG_TAG = StatisticsActivity.class.getSimpleName();
     private TextView mFirstNameText;
     private TextView mSecondNameText;
+    private TextView mThirdNameText;
+    private TextView mFourthNameText;
     StatisticsService statisticsService = new StatisticsService();
 
     @Override
@@ -27,6 +29,8 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
         mFirstNameText = (TextView)findViewById(R.id.firstNameText);
         mSecondNameText = (TextView)findViewById(R.id.secondNameText);
+        mThirdNameText = (TextView)findViewById(R.id.thirdNameText);
+        mFourthNameText = (TextView)findViewById(R.id.fourthNameText);
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         TextView textView = findViewById(R.id.reg_number);
@@ -43,7 +47,14 @@ public class StatisticsActivity extends AppCompatActivity {
         if (connMgr != null) {
             networkInfo = connMgr.getActiveNetworkInfo();
         }
-        statisticsService.getOutputDto(networkInfo, registration, mFirstNameText, mSecondNameText, spinner);
-        UserResultOutput userResultOutput = statisticsService.getUserResutlOutput();
+        statisticsService.getOutputDto(
+                networkInfo,
+                registration,
+                mFirstNameText,
+                mSecondNameText,
+                mThirdNameText,
+                mFourthNameText,
+                spinner);
+        statisticsService.getUserResutlOutput();
     }
 }

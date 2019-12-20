@@ -12,7 +12,7 @@ import java.util.TreeSet;
 
 public class UserResultOutput {
 
-    private Map<Long,Long> competitionAndClassIds;
+    private List<CompetitionAndId> competitionAndClassIds;
     private Set<String> listOfClasses;
     private int countEvents;
     private int medalPlaces;
@@ -22,18 +22,18 @@ public class UserResultOutput {
 
 
     public UserResultOutput() {
-        this.competitionAndClassIds = new HashMap<>();
+        this.competitionAndClassIds = new ArrayList<>();
         this.listOfClasses = new TreeSet<>();
         this.countEvents = 0;
         this.medalPlaces = 0;
         this.disk = 0;
     }
 
-    public Map<Long, Long> getCompetitionAndClassIds() {
+    public List<CompetitionAndId> getCompetitionAndClassIds() {
         return competitionAndClassIds;
     }
 
-    public void setCompetitionAndClassIds(Map<Long, Long> competitionAndClassIds) {
+    public void setCompetitionAndClassIds(List<CompetitionAndId> competitionAndClassIds) {
         this.competitionAndClassIds = competitionAndClassIds;
     }
 
