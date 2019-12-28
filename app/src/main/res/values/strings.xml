@@ -6,7 +6,7 @@
     <string name="statActivity_name">Statistika</string>
     <string name="editReg_hint">Zadej registrační číslo</string>
     <string name="no_result">No results</string>
-    <string name="no_registration">Závodník s tímto registračním číslem není aktivní</string>
+    <string name="no_registration">Neregistrovaný závodník - hledám starší záznamy</string>
     <string name="older_registration">Hledám starší registrace...</string>
     <string name="loading">Loading...</string>
     <string name="no_search_term">Vložte prosím registrační číslo závodníka</string>

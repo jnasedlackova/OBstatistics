@@ -20,6 +20,8 @@ import com.example.obstatistics.Task.FetchUser;
 import com.example.obstatistics.Task.FetchUserEntries;
 import com.example.obstatistics.Task.FetchUserResult;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,11 +98,19 @@ public class StatisticsService {
         this.mChipText = mChipText;
         this.mCountCompetitionText = mCountCompetitionText;
         this.mMoneyPaidText = mMoneyPaidText;
-        Log.d(LOG_TAG, "spinner: " + spinner.toString());
+        this.mTotalTimeText = mTotalTimeText;
+        this.mTotalLossText = mTotalLossText;
+        this.mMedalPlacesText = mMedalPlacesText;
+        this.mDiskPlacesText = mDiskPlacesText;
+        this.mCathegoriesText = mCathegoriesText;
+        this.mTotalDistanceText = mTotalDistanceText;
+        this.mTotalElevationText = mTotalElevationText;
+        this.mTotalControlNumberText = mTotalControlNumberText;
+
         spinner.setVisibility(View.VISIBLE);
         if (networkInfo != null && networkInfo.isConnected()
                 && registration.length() != 0) {
-            getUserInfo(registration, mNameText, mChipText);
+            getUserInfo(registration, mNameText);
         } else {
             if (registration.length() == 0) {
                 mChipText.setText("");
@@ -112,9 +122,9 @@ public class StatisticsService {
         }
     }
 
-    private void getUserInfo(String registration, TextView mFirstNameText, TextView mSecondNameText) {
+    private void getUserInfo(String registration, TextView mNameText) {
         try {
-            fetchUser = new FetchUser(mFirstNameText, mSecondNameText, this);
+            fetchUser = new FetchUser(mNameText, this);
             fetchUser.execute(registration);
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,13 +132,12 @@ public class StatisticsService {
     }
 
     public void getNonActiveUserInfo() {
-        Log.d(LOG_TAG, "getNonActiveUserInfo - reg.: " + registration);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         Integer thisYear = Integer.valueOf(sdf.format(new Date()));
         try {
             for (int year = thisYear; year >= 2013; year--) {
                 if (userFound == 0) {
-                    fetchNonActiveUser = new FetchNonactiveUser(mNameText, mChipText, this);
+                    fetchNonActiveUser = new FetchNonactiveUser(mNameText, this);
                     fetchNonActiveUser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, registration, String.valueOf(year), String.valueOf(numberOfTasks));
                 }
             }
@@ -139,7 +148,6 @@ public class StatisticsService {
 
     public void readUserResult(User user, int value) {
         if (value == 1) {
-            Log.d(LOG_TAG, "User: " + user.toString());
             outputDto.setUser(user);
             getUserEntry();
         }
@@ -147,7 +155,7 @@ public class StatisticsService {
 
     private void getUserEntry() {
         try {
-            fetchUserEntries = new FetchUserEntries(mCountCompetitionText, this);
+            fetchUserEntries = new FetchUserEntries(mChipText, mMoneyPaidText, this);
             fetchUserEntries.execute(outputDto.getUser().getId().toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,12 +181,9 @@ public class StatisticsService {
     }
 
     public void readUserResult(UserResult userResult) {
-        if (userResult != null)
-            Log.d(LOG_TAG, "UserResult: " + userResult.toString());
         this.userResult = userResult;
         addUserResult(userResult);
         counter++;
-        Log.d(LOG_TAG, "counter: " + counter);
         if (counter >= numberOfTasks) {
             getCompetition();
         }
@@ -188,7 +193,6 @@ public class StatisticsService {
         CompetitionAndId competitionAndId = new CompetitionAndId();
         if (userResult != null && userResult.getTime() != "") {
             competitionAndId.setClassId(userResult.getClassId());
-            Log.d(LOG_TAG, "CompetitionAndId: " + competitionAndId.toString());
             listOfClasses.add(userResult.getClassComp());
             countEvents += 1;
             if (userResult.getPlace() >= 1 && userResult.getPlace() < 4) {
@@ -207,14 +211,12 @@ public class StatisticsService {
                 }
             }
             countTimes();
-            Log.d(LOG_TAG, "User: " + outputDto.getUser().toString());
-            Log.d(LOG_TAG, "listOfClasses: " + listOfClasses.toString());
-            Log.d(LOG_TAG, "countEvents: " + countEvents);
-            Log.d(LOG_TAG, "medalPlaces: " + medalPlaces);
-            Log.d(LOG_TAG, "totalTime: " + totalTime);
-            Log.d(LOG_TAG, "totalLoss: " + totalLoss);
-            Log.d(LOG_TAG, "diskEvents: " + disk);
-            mMoneyPaidText.setText(totalTime);
+            mCountCompetitionText.setText("Počet závodů: " + countEvents);
+            mTotalTimeText.setText("Celkový čas v lese (hh:mm:ss): " + totalTime);
+            mTotalLossText.setText("Celková ztráta na vítěze (hh:mm:ss): " + totalLoss);
+            mMedalPlacesText.setText("Počet medailových umístění: " + medalPlaces);
+            mDiskPlacesText.setText("Počet diskvalifikovaných závodů: " + disk);
+            mCathegoriesText.setText("Závodní kategorie: " + listOfClasses.toString());
         }
         return competitionAndId;
     }
@@ -235,8 +237,6 @@ public class StatisticsService {
     }
 
     public void readCompetition(Competition competition) {
-        if (competition != null)
-            Log.d(LOG_TAG, "Competition: " + competition.toString());
         this.competition = competition;
         addCompetition(competition);
     }
@@ -246,11 +246,10 @@ public class StatisticsService {
             totalDistance += competition.getDistance();
             totalClimbing += competition.getClimbing();
             totalControls += competition.getControls();
-            Log.d(LOG_TAG, "Distance: " + totalDistance);
-            Log.d(LOG_TAG, "Climbing: " + totalClimbing);
-            Log.d(LOG_TAG, "Controls: " + totalControls);
-            mMoneyPaidText.setText(totalTime);
-
+            NumberFormat formatter = new DecimalFormat("#0.00");
+            mTotalDistanceText.setText("Celková uběhnutá vzdálenost (km): " + formatter.format(totalDistance));
+            mTotalElevationText.setText("Celkové převýšení (m): " + totalClimbing);
+            mTotalControlNumberText.setText("Celkový počet kontrol: " + totalControls);
         }
     }
 
@@ -261,8 +260,8 @@ public class StatisticsService {
         int lossSeconds = secondsLoss % 60;
         int lossMinutes = (secondsLoss / 60 + minuteLoss) % 60;
         int lossHours = (secondsLoss / 60 + minuteLoss) / 60;
-        totalTime = totalHours + ":" + totalMinutes + ":" + totalSeconds;
-        totalLoss = lossHours + ":" + lossMinutes + ":" + lossSeconds;
+        totalTime = totalHours + ":" + parseTwoDigits(totalMinutes) + ":" + parseTwoDigits(totalSeconds);
+        totalLoss = lossHours + ":" + parseTwoDigits(lossMinutes) + ":" + parseTwoDigits(lossSeconds);
     }
 
     public UserResultOutput getUserResutlOutput() {
@@ -274,5 +273,37 @@ public class StatisticsService {
         userResultOutput.setTime(totalTime);
         userResultOutput.setLoss(totalLoss);
         return userResultOutput;
+    }
+
+    public String calculateBirth(String registration) {
+        String x = registration.substring(3,5);
+        if (isInteger(x)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yy");
+            int thisYear = Integer.parseInt(sdf.format(new Date()));
+            if (Integer.parseInt(x) > thisYear) {
+                return "19" + x;
+            } else {
+                return "20" + x;
+            }
+        }
+        return "????";
+
+    }
+
+    private boolean isInteger( String input ) {
+        try {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
+    }
+
+    private String parseTwoDigits (int number) {
+        if (number < 10) {
+            return "0" + number;
+        }
+        return Integer.toString(number);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.obstatistics.Dto.CompetitionAndId;
@@ -9,7 +8,6 @@ import com.example.obstatistics.Dto.UserEntryJson;
 import com.example.obstatistics.Dto.UserEntry;
 import com.example.obstatistics.Dto.UserEntryOutput;
 import com.example.obstatistics.NetworkUtils;
-import com.example.obstatistics.R;
 import com.example.obstatistics.StatisticsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -23,13 +21,14 @@ public class FetchUserEntries extends AsyncTask<String, Void, UserEntryOutput> {
 
     private static final String LOG_TAG = FetchUserEntries.class.getSimpleName();
 
-    private WeakReference<TextView> mThirdNameText;
-    private WeakReference<TextView> maSIText;
+    private WeakReference<TextView> mChipText;
+    private WeakReference<TextView> mMoneyPaidText;
 
-    public StatisticsService statisticsService;
+    private StatisticsService statisticsService;
 
-    public FetchUserEntries(TextView thirdNameText, StatisticsService statisticsService) {
-        this.mThirdNameText = new WeakReference<>(thirdNameText);
+    public FetchUserEntries(TextView mChipText, TextView mMoneyPaidText, StatisticsService statisticsService) {
+        this.mChipText = new WeakReference<>(mChipText);
+        this.mMoneyPaidText = new WeakReference<>(mMoneyPaidText);
         this.statisticsService = statisticsService;
     }
 
@@ -64,12 +63,8 @@ public class FetchUserEntries extends AsyncTask<String, Void, UserEntryOutput> {
     @Override
     protected void onPostExecute(UserEntryOutput userEntryOutput) {
         if (userEntryOutput != null) {
-            String thirdName = userEntryOutput.getFee().toString();
-            if (thirdName != null) {
-                mThirdNameText.get().setText(thirdName);
-            } else {
-                mThirdNameText.get().setText(R.string.no_result);
-            }
+            mChipText.get().setText("Číslo čipu SI: " + userEntryOutput.getSi());
+            mMoneyPaidText.get().setText("Zaplacené startovné: " + Long.toString(userEntryOutput.getFee()) + " Kč");
             statisticsService.readUserEntryResult(userEntryOutput);
         }
     }

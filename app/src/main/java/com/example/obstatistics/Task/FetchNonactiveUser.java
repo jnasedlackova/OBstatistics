@@ -1,13 +1,11 @@
 package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.obstatistics.Dto.NonActiveUserJson;
 import com.example.obstatistics.Dto.User;
 import com.example.obstatistics.NetworkUtils;
-import com.example.obstatistics.R;
 import com.example.obstatistics.StatisticsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -20,14 +18,12 @@ public class FetchNonactiveUser extends AsyncTask<String, Void, User> {
     private static final String LOG_TAG =
             FetchNonactiveUser.class.getSimpleName();
 
-    private WeakReference<TextView> mFirstNameText;
-    private WeakReference<TextView> mSecondNameText;
+    private WeakReference<TextView> mNameText;
 
     StatisticsService statisticsService;
 
-    public FetchNonactiveUser(TextView firstNameText, TextView secondNameText, StatisticsService statisticsService) {
-        this.mFirstNameText = new WeakReference<>(firstNameText);
-        this.mSecondNameText = new WeakReference<>(secondNameText);
+    public FetchNonactiveUser(TextView firstNameText, StatisticsService statisticsService) {
+        this.mNameText = new WeakReference<>(firstNameText);
         this.statisticsService = statisticsService;
     }
 
@@ -56,15 +52,9 @@ public class FetchNonactiveUser extends AsyncTask<String, Void, User> {
             statisticsService.userFound+=1;
             String firstName = user.getFirstName();
             String secondName = user.getSecondName();
-            if (firstName != null && secondName != null) {
-                mFirstNameText.get().setText(firstName);
-                mSecondNameText.get().setText(secondName);
-            } else {
-                mFirstNameText.get().setText(R.string.no_result);
-                mSecondNameText.get().setText("");
-            }
+            String yearOfBirth = statisticsService.calculateBirth(user.getRegistration());
+            mNameText.get().setText(firstName + " " + secondName + ", rok narození: " + yearOfBirth);
             statisticsService.readUserResult(user, statisticsService.userFound);
-            Log.d(LOG_TAG, "I am in FetchUse: " + user.toString());
         }
     }
 }

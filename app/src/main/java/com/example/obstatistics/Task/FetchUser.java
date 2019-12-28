@@ -14,22 +14,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class FetchUser extends AsyncTask<String, Void, User> {
 
     private static final String LOG_TAG =
             FetchUser.class.getSimpleName();
 
-    private WeakReference<TextView> mFirstNameText;
-    private WeakReference<TextView> mSecondNameText;
+    private WeakReference<TextView> mNameText;
 
     StatisticsService statisticsService;
 
-    public FetchUser(TextView firstNameText, TextView secondNameText, StatisticsService statisticsService) {
-        this.mFirstNameText = new WeakReference<>(firstNameText);
-        this.mSecondNameText = new WeakReference<>(secondNameText);
+    public FetchUser(TextView firstNameText, StatisticsService statisticsService) {
+        this.mNameText = new WeakReference<>(firstNameText);
         this.statisticsService = statisticsService;
     }
 
@@ -56,39 +52,12 @@ public class FetchUser extends AsyncTask<String, Void, User> {
         if (user != null) {
             String firstName = user.getFirstName();
             String secondName = user.getSecondName();
-            String yearOfBirth = calculateBirth(user.getRegistration());
-            mFirstNameText.get().setText(firstName + " " + secondName + ", rok narození: " + yearOfBirth);
-            mSecondNameText.get().setText(secondName);
+            String yearOfBirth = statisticsService.calculateBirth(user.getRegistration());
+            mNameText.get().setText(firstName + " " + secondName + ", rok narození: " + yearOfBirth);
             statisticsService.readUserResult(user, 1);
         } else {
-            mFirstNameText.get().setText(R.string.no_registration);
-            mSecondNameText.get().setText("R.string.older_registration");
+            mNameText.get().setText(R.string.no_registration);
             statisticsService.getNonActiveUserInfo();
-        }
-    }
-
-    private String calculateBirth(String registration) {
-        String x = registration.substring(3,5);
-        if (isInteger(x)) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yy");
-            int thisYear = Integer.parseInt(sdf.format(new Date()));
-            if (Integer.parseInt(x) > thisYear) {
-                return "19" + x;
-            } else {
-                return "20" + x;
-            }
-        }
-        return "????";
-
-    }
-
-    public boolean isInteger( String input ) {
-        try {
-            Integer.parseInt( input );
-            return true;
-        }
-        catch( Exception e ) {
-            return false;
         }
     }
 }
