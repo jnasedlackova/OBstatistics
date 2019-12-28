@@ -66,7 +66,7 @@ public class FetchNonactiveUser extends AsyncTask<String, Void, User> {
             mNameText.get().setText(firstName + " " + secondName + ", rok narození: " + yearOfBirth);
             statisticsService.readUserResult(user, statisticsService.userFound);
         }
-        if (statisticsService.nonActiveUserFinished) {
+        if (statisticsService.nonActiveUserFinished && statisticsService.userFound==0) {
             spinner.setVisibility(View.GONE);
             mChipText.get().setText(R.string.older_registration);
         }
