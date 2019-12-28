@@ -31,7 +31,10 @@ import java.util.TreeSet;
 
 public class StatisticsService {
 
+    private static final String LOG_TAG = StatisticsService.class.getSimpleName();
+
     public int userFound = 0;
+    public boolean nonActiveUserFinished = false;
 
     private ProgressBar spinner;
     private static OutputDto outputDto = new OutputDto();
@@ -54,7 +57,6 @@ public class StatisticsService {
     private Double totalDistance = 0.0;
     private Long totalClimbing = 0l;
     private Long totalControls = 0l;
-    private static final String LOG_TAG = StatisticsService.class.getSimpleName();
     private TextView mNameText;
     private TextView mChipText;
     private TextView mCountCompetitionText;
@@ -137,7 +139,7 @@ public class StatisticsService {
         try {
             for (int year = thisYear; year >= 2013; year--) {
                 if (userFound == 0) {
-                    fetchNonActiveUser = new FetchNonactiveUser(mNameText, this);
+                    fetchNonActiveUser = new FetchNonactiveUser(mNameText, mChipText,this, spinner);
                     fetchNonActiveUser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, registration, String.valueOf(year), String.valueOf(numberOfTasks));
                 }
             }
