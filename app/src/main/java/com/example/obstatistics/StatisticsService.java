@@ -53,10 +53,19 @@ public class StatisticsService {
     private Long totalClimbing = 0l;
     private Long totalControls = 0l;
     private static final String LOG_TAG = StatisticsService.class.getSimpleName();
-    private TextView mFirstNameText;
-    private TextView mSecondNameText;
-    private TextView mThirdNameText;
-    private TextView mFourthNameText;
+    private TextView mNameText;
+    private TextView mChipText;
+    private TextView mCountCompetitionText;
+    private TextView mMoneyPaidText;
+    private TextView mTotalTimeText;
+    private TextView mTotalLossText;
+    private TextView mMedalPlacesText;
+    private TextView mDiskPlacesText;
+    private TextView mCathegoriesText;
+    private TextView mTotalDistanceText;
+    private TextView mTotalElevationText;
+    private TextView mTotalControlNumberText;
+
     private FetchUser fetchUser;
     private FetchNonactiveUser fetchNonActiveUser;
     private FetchUserEntries fetchUserEntries;
@@ -66,34 +75,41 @@ public class StatisticsService {
     private int counter;
 
 
-    public OutputDto getOutputDto(NetworkInfo networkInfo,
-                                  String registration,
-                                  TextView mFirstNameText,
-                                  TextView mSecondNameText,
-                                  TextView mThirdNameText,
-                                  TextView mFourthNameText,
-                                  ProgressBar spinner) {
+    public void startStatsCounting(NetworkInfo networkInfo,
+                                   String registration,
+                                   TextView mNameText,
+                                   TextView mChipText,
+                                   TextView mCountCompetitionText,
+                                   TextView mMoneyPaidText,
+                                   TextView mTotalTimeText,
+                                   TextView mTotalLossText,
+                                   TextView mMedalPlacesText,
+                                   TextView mDiskPlacesText,
+                                   TextView mCathegoriesText,
+                                   TextView mTotalDistanceText,
+                                   TextView mTotalElevationText,
+                                   TextView mTotalControlNumberText,
+                                   ProgressBar spinner) {
         this.registration = registration;
         this.spinner = spinner;
-        this.mFirstNameText = mFirstNameText;
-        this.mSecondNameText = mSecondNameText;
-        this.mThirdNameText = mThirdNameText;
-        this.mFourthNameText = mFourthNameText;
+        this.mNameText = mNameText;
+        this.mChipText = mChipText;
+        this.mCountCompetitionText = mCountCompetitionText;
+        this.mMoneyPaidText = mMoneyPaidText;
         Log.d(LOG_TAG, "spinner: " + spinner.toString());
         spinner.setVisibility(View.VISIBLE);
         if (networkInfo != null && networkInfo.isConnected()
                 && registration.length() != 0) {
-            getUserInfo(registration, mFirstNameText, mSecondNameText);
+            getUserInfo(registration, mNameText, mChipText);
         } else {
             if (registration.length() == 0) {
-                mSecondNameText.setText("");
-                mFirstNameText.setText(R.string.no_search_term);
+                mChipText.setText("");
+                mNameText.setText(R.string.no_search_term);
             } else {
-                mSecondNameText.setText("");
-                mFirstNameText.setText(R.string.no_network);
+                mChipText.setText("");
+                mNameText.setText(R.string.no_network);
             }
         }
-        return outputDto;
     }
 
     private void getUserInfo(String registration, TextView mFirstNameText, TextView mSecondNameText) {
@@ -112,7 +128,7 @@ public class StatisticsService {
         try {
             for (int year = thisYear; year >= 2013; year--) {
                 if (userFound == 0) {
-                    fetchNonActiveUser = new FetchNonactiveUser(mFirstNameText, mSecondNameText, this);
+                    fetchNonActiveUser = new FetchNonactiveUser(mNameText, mChipText, this);
                     fetchNonActiveUser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, registration, String.valueOf(year), String.valueOf(numberOfTasks));
                 }
             }
@@ -131,7 +147,7 @@ public class StatisticsService {
 
     private void getUserEntry() {
         try {
-            fetchUserEntries = new FetchUserEntries(mThirdNameText, this);
+            fetchUserEntries = new FetchUserEntries(mCountCompetitionText, this);
             fetchUserEntries.execute(outputDto.getUser().getId().toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -198,7 +214,7 @@ public class StatisticsService {
             Log.d(LOG_TAG, "totalTime: " + totalTime);
             Log.d(LOG_TAG, "totalLoss: " + totalLoss);
             Log.d(LOG_TAG, "diskEvents: " + disk);
-            mFourthNameText.setText(totalTime);
+            mMoneyPaidText.setText(totalTime);
         }
         return competitionAndId;
     }
@@ -233,7 +249,7 @@ public class StatisticsService {
             Log.d(LOG_TAG, "Distance: " + totalDistance);
             Log.d(LOG_TAG, "Climbing: " + totalClimbing);
             Log.d(LOG_TAG, "Controls: " + totalControls);
-            mFourthNameText.setText(totalTime);
+            mMoneyPaidText.setText(totalTime);
 
         }
     }

@@ -11,33 +11,49 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.obstatistics.Dto.UserResultOutput;
-
 public class StatisticsActivity extends AppCompatActivity {
 
-    private ProgressBar spinner;
     private static final String LOG_TAG = StatisticsActivity.class.getSimpleName();
-    private TextView mFirstNameText;
-    private TextView mSecondNameText;
-    private TextView mThirdNameText;
-    private TextView mFourthNameText;
+
+    private TextView mNameText;
+    private TextView mChipText;
+    private TextView mCountCompetitionText;
+    private TextView mMoneyPaidText;
+    private TextView mTotalTimeText;
+    private TextView mTotalLossText;
+    private TextView mMedalPlacesText;
+    private TextView mDiskPlacesText;
+    private TextView mCathegoriesText;
+    private TextView mTotalDistanceText;
+    private TextView mTotalElevationText;
+    private TextView mTotalControlNumberText;
+    private ProgressBar spinner;
     StatisticsService statisticsService = new StatisticsService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-        mFirstNameText = (TextView)findViewById(R.id.firstNameText);
-        mSecondNameText = (TextView)findViewById(R.id.secondNameText);
-        mThirdNameText = (TextView)findViewById(R.id.thirdNameText);
-        mFourthNameText = (TextView)findViewById(R.id.fourthNameText);
+        mNameText = (TextView)findViewById(R.id.nameText);
+        mChipText = (TextView)findViewById(R.id.chipText);
+        mCountCompetitionText = (TextView)findViewById(R.id.countCompetitionText);
+        mMoneyPaidText = (TextView)findViewById(R.id.moneyPaidText);
+        mTotalTimeText = (TextView) findViewById(R.id.totalTimeText);
+        mTotalLossText = (TextView) findViewById(R.id.totalLossText);
+        mMedalPlacesText = (TextView) findViewById(R.id.medalPlacesText);
+        mDiskPlacesText = (TextView) findViewById(R.id.diskPlacesText);
+        mCathegoriesText = (TextView) findViewById(R.id.cathegoriesText);
+        mTotalDistanceText = (TextView) findViewById(R.id.totalDistanceText);
+        mTotalElevationText = (TextView) findViewById(R.id.totalElevationText);
+        mTotalControlNumberText = (TextView) findViewById(R.id.totalControlNumberText);
+
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView textView = findViewById(R.id.reg_number);
-        textView.setText(message);
+        String registration = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        TextView registrationTextView = findViewById(R.id.reg_number);
+        registrationTextView.setText(registration.toUpperCase());
         spinner=(ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
-        createStatistics(message);
+        createStatistics(registration);
     }
 
     public void createStatistics(String registration) {
@@ -47,13 +63,21 @@ public class StatisticsActivity extends AppCompatActivity {
         if (connMgr != null) {
             networkInfo = connMgr.getActiveNetworkInfo();
         }
-        statisticsService.getOutputDto(
+        statisticsService.startStatsCounting(
                 networkInfo,
                 registration,
-                mFirstNameText,
-                mSecondNameText,
-                mThirdNameText,
-                mFourthNameText,
+                mNameText,
+                mChipText,
+                mCountCompetitionText,
+                mMoneyPaidText,
+                mTotalTimeText,
+                mTotalLossText,
+                mMedalPlacesText,
+                mDiskPlacesText,
+                mCathegoriesText,
+                mTotalDistanceText,
+                mTotalElevationText,
+                mTotalControlNumberText,
                 spinner);
         statisticsService.getUserResutlOutput();
     }
