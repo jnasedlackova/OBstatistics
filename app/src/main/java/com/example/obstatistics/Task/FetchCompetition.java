@@ -1,7 +1,6 @@
 package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,7 +19,7 @@ public class FetchCompetition extends AsyncTask<String, Void, Competition> {
 
     private static final String LOG_TAG = FetchCompetition.class.getSimpleName();
     static int countTasks = 0;
-//    int numberOfTasks;
+    int numberOfTasks;
 
     StatisticsService statisticsService;
     ProgressBar spinner;
@@ -35,7 +34,7 @@ public class FetchCompetition extends AsyncTask<String, Void, Competition> {
         countTasks++;
         String string = NetworkUtils.getEvent(strings[0]);
         String classId = strings[1];
-//        numberOfTasks = Integer.valueOf(strings[2]);
+        numberOfTasks = Integer.valueOf(strings[2]);
         ObjectMapper mapper = new ObjectMapper();
         List<Competition> competitionList = new ArrayList<>();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -57,8 +56,8 @@ public class FetchCompetition extends AsyncTask<String, Void, Competition> {
 
     @Override
     protected void onPostExecute(Competition competition) {
-//        if (numberOfTasks <= countTasks)
-//            spinner.setVisibility(View.GONE);
+        if (numberOfTasks <= countTasks)
+            spinner.setVisibility(View.GONE);
         statisticsService.readCompetition(competition);
     }
 }

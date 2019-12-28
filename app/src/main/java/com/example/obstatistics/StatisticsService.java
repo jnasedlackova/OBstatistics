@@ -1,6 +1,7 @@
 package com.example.obstatistics;
 
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -14,19 +15,21 @@ import com.example.obstatistics.Dto.UserEntryOutput;
 import com.example.obstatistics.Dto.UserResult;
 import com.example.obstatistics.Dto.UserResultOutput;
 import com.example.obstatistics.Task.FetchCompetition;
+import com.example.obstatistics.Task.FetchNonactiveUser;
 import com.example.obstatistics.Task.FetchUser;
 import com.example.obstatistics.Task.FetchUserEntries;
 import com.example.obstatistics.Task.FetchUserResult;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class StatisticsService {
+
+    public int userFound = 0;
 
     private ProgressBar spinner;
     private static OutputDto outputDto = new OutputDto();
@@ -55,6 +58,7 @@ public class StatisticsService {
     private TextView mThirdNameText;
     private TextView mFourthNameText;
     private FetchUser fetchUser;
+    private FetchNonactiveUser fetchNonActiveUser;
     private FetchUserEntries fetchUserEntries;
     private FetchUserResult fetchUserResult;
     private FetchCompetition fetchCompetition;
@@ -71,12 +75,15 @@ public class StatisticsService {
                                   ProgressBar spinner) {
         this.registration = registration;
         this.spinner = spinner;
+        this.mFirstNameText = mFirstNameText;
+        this.mSecondNameText = mSecondNameText;
         this.mThirdNameText = mThirdNameText;
         this.mFourthNameText = mFourthNameText;
+        Log.d(LOG_TAG, "spinner: " + spinner.toString());
         spinner.setVisibility(View.VISIBLE);
         if (networkInfo != null && networkInfo.isConnected()
                 && registration.length() != 0) {
-        getUserInfo(registration, mFirstNameText, mSecondNameText);
+            getUserInfo(registration, mFirstNameText, mSecondNameText);
         } else {
             if (registration.length() == 0) {
                 mSecondNameText.setText("");
@@ -98,10 +105,28 @@ public class StatisticsService {
         }
     }
 
-    public void readUser(User user) {
-        Log.d(LOG_TAG, "User: " + user.toString());
-        outputDto.setUser(user);
-        getUserEntry();
+    public void getNonActiveUserInfo() {
+        Log.d(LOG_TAG, "getNonActiveUserInfo - reg.: " + registration);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        Integer thisYear = Integer.valueOf(sdf.format(new Date()));
+        try {
+            for (int year = thisYear; year >= 2013; year--) {
+                if (userFound == 0) {
+                    fetchNonActiveUser = new FetchNonactiveUser(mFirstNameText, mSecondNameText, this);
+                    fetchNonActiveUser.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, registration, String.valueOf(year), String.valueOf(numberOfTasks));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readUserResult(User user, int value) {
+        if (value == 1) {
+            Log.d(LOG_TAG, "User: " + user.toString());
+            outputDto.setUser(user);
+            getUserEntry();
+        }
     }
 
     private void getUserEntry() {
@@ -120,7 +145,6 @@ public class StatisticsService {
 
     private void getUserResult() {
         numberOfTasks = outputDto.getUserEntryOutput().getCompetitionIdList().size();
-        Log.d(LOG_TAG, "number of tasks: " + numberOfTasks);
         for (Long competitionId : outputDto.getUserEntryOutput().getCompetitionIdList()) {
             try {
                 this.competitionId = competitionId;
@@ -132,23 +156,7 @@ public class StatisticsService {
         }
     }
 
-    private void getCompetition() {
-        List<CompetitionAndId> competitionAndIdList = outputDto.getUserEntryOutput().getCompetitionAndIdList();
-//        String numberOfTasks = String.valueOf(outputDto.getUserResultOutput().getCompetitionAndClassIds().size());
-        if (!competitionAndIdList.isEmpty()) {
-            Log.d(LOG_TAG, "CompetitionAndClassIds: " + competitionAndIdList.toString());
-            for(CompetitionAndId entry : competitionAndIdList) {
-                try {
-                    fetchCompetition = new FetchCompetition(this, spinner);
-                    fetchCompetition.execute(entry.getCompetitionId().toString(), entry.getClassId().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public void readUser(UserResult userResult) {
+    public void readUserResult(UserResult userResult) {
         if (userResult != null)
             Log.d(LOG_TAG, "UserResult: " + userResult.toString());
         this.userResult = userResult;
@@ -158,13 +166,6 @@ public class StatisticsService {
         if (counter >= numberOfTasks) {
             getCompetition();
         }
-    }
-
-    public void readCompetition(Competition competition) {
-        if (competition != null)
-            Log.d(LOG_TAG, "Competition: " + competition.toString());
-        this.competition = competition;
-        addCompetition(competition);
     }
 
     private CompetitionAndId addUserResult(UserResult userResult) {
@@ -200,6 +201,28 @@ public class StatisticsService {
             mFourthNameText.setText(totalTime);
         }
         return competitionAndId;
+    }
+
+    private void getCompetition() {
+        List<CompetitionAndId> competitionAndIdList = outputDto.getUserEntryOutput().getCompetitionAndIdList();
+        numberOfTasks = competitionAndIdList.size();
+        if (!competitionAndIdList.isEmpty()) {
+            for(CompetitionAndId entry : competitionAndIdList) {
+                try {
+                    fetchCompetition = new FetchCompetition(this, spinner);
+                    fetchCompetition.execute(entry.getCompetitionId().toString(), entry.getClassId().toString(), String.valueOf(numberOfTasks));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void readCompetition(Competition competition) {
+        if (competition != null)
+            Log.d(LOG_TAG, "Competition: " + competition.toString());
+        this.competition = competition;
+        addCompetition(competition);
     }
 
     private void addCompetition(Competition competition) {

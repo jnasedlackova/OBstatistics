@@ -1,11 +1,10 @@
 package com.example.obstatistics.Dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User {
+public class NonActiveUser {
 
-    @JsonAlias({"ID", "UserID"})
+    @JsonProperty("UserID")
     private Long id;
     @JsonProperty("FirstName")
     private String firstName;
@@ -48,10 +47,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "NonActiveUser{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
+                ", registration='" + registration + '\'' +
                 '}';
     }
 }

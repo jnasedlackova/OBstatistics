@@ -20,12 +20,24 @@ public class NetworkUtils {
     private static final String USER_ID = "userid";
     private static final String EVENT_ID = "eventid";
     private static final String ID = "id";
+    private static final String SPORT = "sport";
+    private static final String YEAR = "year";
 
     public static String getUser(String userRegNumber) {
         Uri builtURI = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(FORMAT, "json")
                 .appendQueryParameter(METHOD, "getUser")
                 .appendQueryParameter(REGISTRATION, userRegNumber)
+                .build();
+        return connectAndGetJsonString(builtURI);
+    }
+
+    public static String getNonActiveUser(String userRegNumber, String year) {
+        Uri builtURI = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter(FORMAT, "json")
+                .appendQueryParameter(METHOD, "getRegistration")
+                .appendQueryParameter(SPORT, "1")
+                .appendQueryParameter(YEAR, year)
                 .build();
         return connectAndGetJsonString(builtURI);
     }

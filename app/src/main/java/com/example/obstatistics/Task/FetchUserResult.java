@@ -1,7 +1,6 @@
 package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.obstatistics.Dto.UserResult;
@@ -57,8 +56,6 @@ public class FetchUserResult extends AsyncTask<String, Void, UserResult> {
 
     @Override
     protected void onPostExecute(UserResult userResult) {
-        if (numberOfTasks <= countTasks)
-            spinner.setVisibility(View.GONE);
-        statisticsService.readUser(userResult);
+        statisticsService.readUserResult(userResult);
     }
 }
