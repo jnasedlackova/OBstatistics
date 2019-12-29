@@ -23,10 +23,12 @@ public class FetchCompetition extends AsyncTask<String, Void, Competition> {
 
     StatisticsService statisticsService;
     ProgressBar spinner;
+    View buttonSave;
 
-    public FetchCompetition(StatisticsService statisticsService, ProgressBar spinner) {
+    public FetchCompetition(StatisticsService statisticsService, ProgressBar spinner, View buttonSave) {
         this.statisticsService = statisticsService;
         this.spinner = spinner;
+        this.buttonSave = buttonSave;
     }
 
     @Override
@@ -56,8 +58,10 @@ public class FetchCompetition extends AsyncTask<String, Void, Competition> {
 
     @Override
     protected void onPostExecute(Competition competition) {
-        if (numberOfTasks <= countTasks)
+        if (numberOfTasks <= countTasks) {
             spinner.setVisibility(View.GONE);
+            buttonSave.setVisibility(View.VISIBLE);
+        }
         statisticsService.readCompetition(competition);
     }
 }

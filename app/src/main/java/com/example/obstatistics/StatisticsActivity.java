@@ -27,6 +27,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView mTotalDistanceText;
     private TextView mTotalElevationText;
     private TextView mTotalControlNumberText;
+    private View buttonSave;
     private ProgressBar spinner;
     StatisticsService statisticsService = new StatisticsService();
 
@@ -53,6 +54,8 @@ public class StatisticsActivity extends AppCompatActivity {
         registrationTextView.setText(registration.toUpperCase());
         spinner=(ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
+        buttonSave = findViewById(R.id.buttonSave);
+        buttonSave.setVisibility(View.GONE);
         createStatistics(registration);
     }
 
@@ -78,7 +81,12 @@ public class StatisticsActivity extends AppCompatActivity {
                 mTotalDistanceText,
                 mTotalElevationText,
                 mTotalControlNumberText,
+                buttonSave,
                 spinner);
         statisticsService.getUserResutlOutput();
+    }
+
+    public void saveItem(View view) {
+
     }
 }

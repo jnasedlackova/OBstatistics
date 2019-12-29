@@ -69,6 +69,7 @@ public class StatisticsService {
     private TextView mTotalDistanceText;
     private TextView mTotalElevationText;
     private TextView mTotalControlNumberText;
+    private View buttonSave;
 
     private FetchUser fetchUser;
     private FetchNonactiveUser fetchNonActiveUser;
@@ -93,6 +94,7 @@ public class StatisticsService {
                                    TextView mTotalDistanceText,
                                    TextView mTotalElevationText,
                                    TextView mTotalControlNumberText,
+                                   View buttonSave,
                                    ProgressBar spinner) {
         this.registration = registration;
         this.spinner = spinner;
@@ -108,6 +110,7 @@ public class StatisticsService {
         this.mTotalDistanceText = mTotalDistanceText;
         this.mTotalElevationText = mTotalElevationText;
         this.mTotalControlNumberText = mTotalControlNumberText;
+        this.buttonSave = buttonSave;
 
         spinner.setVisibility(View.VISIBLE);
         if (networkInfo != null && networkInfo.isConnected()
@@ -229,7 +232,7 @@ public class StatisticsService {
         if (!competitionAndIdList.isEmpty()) {
             for(CompetitionAndId entry : competitionAndIdList) {
                 try {
-                    fetchCompetition = new FetchCompetition(this, spinner);
+                    fetchCompetition = new FetchCompetition(this, spinner, buttonSave);
                     fetchCompetition.execute(entry.getCompetitionId().toString(), entry.getClassId().toString(), String.valueOf(numberOfTasks));
                 } catch (Exception e) {
                     e.printStackTrace();

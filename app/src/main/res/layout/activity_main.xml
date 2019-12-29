@@ -56,6 +56,8 @@
             android:background="@color/colorPrimaryDark"
             android:onClick="launchStatisticsActivity"
             android:text="@string/show_statistics"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/buttonShowComp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +71,8 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:text="@string/ukaz_zavody"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
