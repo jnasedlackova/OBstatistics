@@ -172,6 +172,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:background="@color/colorPrimaryDark"
         android:ellipsize="none"
         android:onClick="saveItem"

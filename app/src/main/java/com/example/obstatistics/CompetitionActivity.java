@@ -3,6 +3,7 @@ package com.example.obstatistics;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,6 +19,8 @@ public class CompetitionActivity extends AppCompatActivity {
     private static final String LOG_TAG = StatisticsActivity.class.getSimpleName();
 
     private RecordViewModel mRecordViewModel;
+    private TextView mCountRecords;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,11 @@ public class CompetitionActivity extends AppCompatActivity {
         if (records.isEmpty()) {
             records.add(new Record("Nebyly nalezeny žádné záznamy pro toto registrační číslo"));
         }
+
+        mCountRecords = (TextView) findViewById(R.id.numberOfRecords);
+        mCountRecords.setText("Počet nalezených záznamů: " + records.size());
         RecordAdapter adapter = new RecordAdapter(this, records);
-        ListView listView = (ListView) findViewById(R.id.recordlist);
+        listView = (ListView) findViewById(R.id.recordlist);
         listView.setAdapter(adapter);
     }
 }
