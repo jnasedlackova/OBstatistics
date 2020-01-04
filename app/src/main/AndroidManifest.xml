@@ -19,6 +19,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DeleteAllActivity"
+            android:configChanges="orientation"
+            android:label = "@string/delAllActivity_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    "com.example.obstatistics.MainActivity" />
+        </activity>
+        <activity android:name=".DeleteRegActivity"
+            android:configChanges="orientation"
+            android:label = "@string/delRegActivity_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    "com.example.obstatistics.MainActivity" />
+        </activity>
         <activity android:name=".StatisticsActivity"
             android:configChanges="orientation"
             android:label = "@string/statActivity_name"

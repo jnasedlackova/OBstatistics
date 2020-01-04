@@ -25,6 +25,14 @@ public class RecordRepository {
         return mRecordDao.getRecordsByRegistration(registration);
     }
 
+    public void deleteAll() {
+        mRecordDao.deleteAll();
+    }
+
+    public void deleteReg(String registration) {
+        mRecordDao.deleteReg(registration);
+    }
+
     public void insert (Record record) {
         new insertAsyncTask(mRecordDao).execute(record);
     }

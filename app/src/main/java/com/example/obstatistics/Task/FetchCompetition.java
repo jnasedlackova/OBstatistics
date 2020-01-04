@@ -1,6 +1,7 @@
 package com.example.obstatistics.Task;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -61,6 +62,7 @@ public class FetchCompetition extends AsyncTask<String, Void, Competition> {
         if (numberOfTasks <= countTasks) {
             spinner.setVisibility(View.GONE);
             buttonSave.setVisibility(View.VISIBLE);
+            countTasks = 0;
         }
         statisticsService.readCompetition(competition);
     }

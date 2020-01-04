@@ -31,12 +31,11 @@ public class CompetitionActivity extends AppCompatActivity {
 
         mRecordViewModel = ViewModelProviders.of(this).get(RecordViewModel.class);
         List<Record> records = mRecordViewModel.getRecordsByRegistration(registration);
+        mCountRecords = (TextView) findViewById(R.id.numberOfRecords);
+        mCountRecords.setText("Počet nalezených záznamů: " + records.size());
         if (records.isEmpty()) {
             records.add(new Record("Nebyly nalezeny žádné záznamy pro toto registrační číslo"));
         }
-
-        mCountRecords = (TextView) findViewById(R.id.numberOfRecords);
-        mCountRecords.setText("Počet nalezených záznamů: " + records.size());
         RecordAdapter adapter = new RecordAdapter(this, records);
         listView = (ListView) findViewById(R.id.recordlist);
         listView.setAdapter(adapter);

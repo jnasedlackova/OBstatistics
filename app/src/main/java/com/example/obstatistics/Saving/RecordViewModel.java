@@ -3,7 +3,6 @@ package com.example.obstatistics.Saving;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
@@ -26,6 +25,14 @@ public class RecordViewModel extends AndroidViewModel {
     public List<Record> getAllRecords() { return mAllRecords; }
 
     public void insert(Record record) { mRepository.insert(record); }
+
+    public void deleteAll() {
+        mRepository.deleteAll();
+    }
+
+    public void deleteReg(String registration) {
+        mRepository.deleteReg(registration);
+    }
 
 
 }

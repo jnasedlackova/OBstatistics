@@ -19,6 +19,9 @@ public interface RecordDao {
     @Query("DELETE FROM record_table")
     void deleteAll();
 
+    @Query("DELETE FROM record_table WHERE registration LIKE :reg")
+    void deleteReg(String reg);
+
     @Query("SELECT * from record_table ORDER BY registration ASC")
     List<Record> getAllRecords();
 

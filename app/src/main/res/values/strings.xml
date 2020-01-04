@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">OBstatistics</string>
-    <string name="zadej">Zadej registrační číslo a vyber, jestli chceš spočítat statistiku, nebo zobrazit odběhnuté závody.</string>
+    <string name="zadej">Zadej registrační číslo a vyber, jestli chceš spočítat statistiku,
+        nebo zobrazit uložené záznamy.</string>
     <string name="show_statistics">Spočítej statistiku</string>
-    <string name="ukaz_zavody">Ukaž uložené výpočty</string>
+    <string name="ukaz_zavody">Ukaž uložené záznamy</string>
     <string name="statActivity_name">Statistika</string>
+    <string name="delAllActivity_name">Smazání databáze</string>
+    <string name="delRegActivity_name">Smazání DB dle reg.č.</string>
     <string name="compActivity_name">Uložené statistiky</string>
     <string name="editReg_hint">Zadej registrační číslo</string>
     <string name="no_registration">Neregistrovaný závodník - vyhledávám..</string>
@@ -12,5 +15,12 @@
     <string name="no_search_term">Vraťte se zpět a vložte prosím registrační číslo závodníka</string>
     <string name="no_network">Ověřte prosím síťové připojení a zkuste znovu</string>
     <string name="save"> Uložit záznam do DB </string>
-    <string name="toast_message">Ukládám záznam do DB...</string>
+    <string name="toast_message_save">Ukládám záznam do DB...</string>
+    <string name="toast_message_delete_all">Mažu všechny záznamy z DB...</string>
+    <string name="toast_message_delete_reg">Mažu záznamy dle reg. čísla z DB...</string>
+    <string name="menu_item1">Vymazat celou DB</string>
+    <string name="delete_long">Opravdu chcete smazat databázi?</string>
+    <string name="delete">Smazat celou databázi</string>
+    <string name="deleteReg">Smazat databázi</string>
+    <string name="menu_item2">Vymazat záznamy dle reg. čísla.</string>
 </resources>

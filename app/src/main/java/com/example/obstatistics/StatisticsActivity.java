@@ -93,7 +93,7 @@ public class StatisticsActivity extends AppCompatActivity {
     public void saveItem(View view) {
         mRecordViewModel = ViewModelProviders.of(this).get(RecordViewModel.class);
         mRecordViewModel.insert(statisticsService.record);
-        Toast toast = Toast.makeText(this, R.string.toast_message, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, R.string.toast_message_save, Toast.LENGTH_SHORT);
         toast.show();
     }
 }
