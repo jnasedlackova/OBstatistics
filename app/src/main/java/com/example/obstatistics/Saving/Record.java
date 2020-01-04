@@ -30,7 +30,7 @@ public class Record {
     private String totalControls;
 
     public Record() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
         dateOfRecord = sdf.format(new Date());
     }
 

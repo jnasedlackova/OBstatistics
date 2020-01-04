@@ -40,7 +40,7 @@ public class RecordAdapter extends ArrayAdapter<Record> {
         if(record.getRegistration() == null) {
             tvDate.setText(record.getDateOfRecord());
         } else {
-            tvDate.setText(record.getRegistration() + ", uloženo " + record.getDateOfRecord());
+            tvDate.setText(record.getRegistration().toUpperCase() + ", uloženo " + record.getDateOfRecord());
         }
         tvName.setText(record.getIdentity());
         tvChip.setText(record.getChip());

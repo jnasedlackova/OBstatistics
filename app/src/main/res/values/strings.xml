@@ -12,4 +12,5 @@
     <string name="no_search_term">Vraťte se zpět a vložte prosím registrační číslo závodníka</string>
     <string name="no_network">Ověřte prosím síťové připojení a zkuste znovu</string>
     <string name="save"> Uložit záznam do DB </string>
+    <string name="toast_message">Ukládám záznam do DB...</string>
 </resources>

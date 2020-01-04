@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.obstatistics.Saving.RecordViewModel;
 
@@ -92,5 +93,7 @@ public class StatisticsActivity extends AppCompatActivity {
     public void saveItem(View view) {
         mRecordViewModel = ViewModelProviders.of(this).get(RecordViewModel.class);
         mRecordViewModel.insert(statisticsService.record);
+        Toast toast = Toast.makeText(this, R.string.toast_message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
