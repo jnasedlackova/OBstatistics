@@ -2,7 +2,6 @@ package com.example.obstatistics;
 
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.example.obstatistics.Dto.User;
 import com.example.obstatistics.Dto.UserEntryOutput;
 import com.example.obstatistics.Dto.UserResult;
 import com.example.obstatistics.Dto.UserResultOutput;
+import com.example.obstatistics.Saving.Record;
 import com.example.obstatistics.Task.FetchCompetition;
 import com.example.obstatistics.Task.FetchNonactiveUser;
 import com.example.obstatistics.Task.FetchUser;
@@ -38,6 +38,7 @@ public class StatisticsService {
 
     private ProgressBar spinner;
     private static OutputDto outputDto = new OutputDto();
+    public Record record = new Record();
     private UserResultOutput userResultOutput = new UserResultOutput();
     private String registration;
     private Long competitionId;
@@ -112,9 +113,9 @@ public class StatisticsService {
         this.mTotalControlNumberText = mTotalControlNumberText;
         this.buttonSave = buttonSave;
 
-        spinner.setVisibility(View.VISIBLE);
         if (networkInfo != null && networkInfo.isConnected()
                 && registration.length() != 0) {
+            spinner.setVisibility(View.VISIBLE);
             getUserInfo(registration, mNameText);
         } else {
             if (registration.length() == 0) {
@@ -169,6 +170,7 @@ public class StatisticsService {
 
     public void readUserEntryResult(UserEntryOutput userEntryOutput) {
         outputDto.setUserEntryOutput(userEntryOutput);
+        fillRecordFirstPart();
         getUserResult();
     }
 
@@ -216,12 +218,18 @@ public class StatisticsService {
                 }
             }
             countTimes();
-            mCountCompetitionText.setText("Počet závodů: " + countEvents);
-            mTotalTimeText.setText("Celkový čas v lese (hh:mm:ss): " + totalTime);
-            mTotalLossText.setText("Celková ztráta na vítěze (hh:mm:ss): " + totalLoss);
-            mMedalPlacesText.setText("Počet medailových umístění: " + medalPlaces);
-            mDiskPlacesText.setText("Počet diskvalifikovaných závodů: " + disk);
-            mCathegoriesText.setText("Závodní kategorie: " + listOfClasses.toString());
+            record.setCountCompetition("Počet závodů: " + countEvents);
+            mCountCompetitionText.setText(record.getCountCompetition());
+            record.setTotalTime("Celkový čas v lese (hh:mm:ss): " + totalTime);
+            mTotalTimeText.setText(record.getTotalTime());
+            record.setTotalLoss("Celková ztráta na vítěze (hh:mm:ss): " + totalLoss);
+            mTotalLossText.setText(record.getTotalLoss());
+            record.setMedalPlaces("Počet medailových umístění: " + medalPlaces);
+            mMedalPlacesText.setText(record.getMedalPlaces());
+            record.setDiskEvents("Počet diskvalifikovaných závodů: " + disk);
+            mDiskPlacesText.setText(record.getDiskEvents());
+            record.setCathegories("Závodní kategorie: " + listOfClasses.toString());
+            mCathegoriesText.setText(record.getCathegories());
         }
         return competitionAndId;
     }
@@ -252,9 +260,12 @@ public class StatisticsService {
             totalClimbing += competition.getClimbing();
             totalControls += competition.getControls();
             NumberFormat formatter = new DecimalFormat("#0.00");
-            mTotalDistanceText.setText("Celková uběhnutá vzdálenost (km): " + formatter.format(totalDistance));
-            mTotalElevationText.setText("Celkové převýšení (m): " + totalClimbing);
-            mTotalControlNumberText.setText("Celkový počet kontrol: " + totalControls);
+            record.setTotalDistance("Celková uběhnutá vzdálenost (km): " + formatter.format(totalDistance));
+            mTotalDistanceText.setText(record.getTotalDistance());
+            record.setTotalClimbing("Celkové převýšení (m): " + totalClimbing);
+            mTotalElevationText.setText(record.getTotalClimbing());
+            record.setTotalControls("Celkový počet kontrol: " + totalControls);
+            mTotalControlNumberText.setText(record.getTotalControls());
         }
     }
 
@@ -310,5 +321,12 @@ public class StatisticsService {
             return "0" + number;
         }
         return Integer.toString(number);
+    }
+
+    private void fillRecordFirstPart() {
+        record.setRegistration(registration);
+        record.setIdentity(mNameText.getText().toString());
+        record.setChip(mChipText.getText().toString());
+        record.setMoneyPaid(mMoneyPaidText.getText().toString());
     }
 }

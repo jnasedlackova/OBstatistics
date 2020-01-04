@@ -26,7 +26,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=
-                    "com.example.obstatistics.MainActivity" /></activity>
+                    "com.example.obstatistics.MainActivity" />
+        </activity>
+        <activity android:name=".CompetitionActivity"
+            android:configChanges="orientation"
+            android:label = "@string/compActivity_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=
+                    "com.example.obstatistics.MainActivity" />
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

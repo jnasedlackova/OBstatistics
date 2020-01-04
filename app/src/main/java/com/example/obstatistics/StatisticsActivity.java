@@ -1,6 +1,7 @@
 package com.example.obstatistics;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.obstatistics.Saving.RecordViewModel;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = StatisticsActivity.class.getSimpleName();
-
+    private RecordViewModel mRecordViewModel;
     private TextView mNameText;
     private TextView mChipText;
     private TextView mCountCompetitionText;
@@ -50,10 +53,10 @@ public class StatisticsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String registration = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView registrationTextView = findViewById(R.id.reg_number);
+        TextView registrationTextView = findViewById(R.id.regNumber);
         registrationTextView.setText(registration.toUpperCase());
         spinner=(ProgressBar)findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.GONE);
         buttonSave = findViewById(R.id.buttonSave);
         buttonSave.setVisibility(View.GONE);
         createStatistics(registration);
@@ -87,6 +90,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     public void saveItem(View view) {
-
+        mRecordViewModel = ViewModelProviders.of(this).get(RecordViewModel.class);
+        mRecordViewModel.insert(statisticsService.record);
     }
 }

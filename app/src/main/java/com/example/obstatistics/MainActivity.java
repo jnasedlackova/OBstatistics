@@ -26,4 +26,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, regNumber);
         startActivity(intent);
     }
+
+    public void launchCompetitionsActivity(View view) {
+        Intent intent = new Intent(this, CompetitionActivity.class);
+        String regNumber = mMessageRegistrationNumber.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, regNumber);
+        startActivity(intent);
+    }
 }

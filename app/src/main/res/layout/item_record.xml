@@ -3,27 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".StatisticsActivity">
-
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/regNumber"
+        android:id="@+id/db_dateText"
+        style="@style/StatisticsText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:textAlignment="center"
+        android:background="@color/colorGreen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/nameText"
+        android:id="@+id/db_nameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -31,88 +30,88 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/db_dateText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/chipText"
+        android:id="@+id/db_chipText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_nameText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/moneyPaidText"
+        android:id="@+id/db_moneyPaidText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_chipText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/countCompetitionText"
+        android:id="@+id/db_countCompetitionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moneyPaidText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_moneyPaidText" />
 
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/totalTimeText"
+        android:id="@+id/db_totalTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countCompetitionText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_countCompetitionText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/totalLossText"
+        android:id="@+id/db_totalLossText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalTimeText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_totalTimeText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/medalPlacesText"
+        android:id="@+id/db_medalPlacesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalLossText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_totalLossText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/diskPlacesText"
+        android:id="@+id/db_diskPlacesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medalPlacesText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_medalPlacesText" />
 
     <TextView
-        android:id="@+id/cathegoriesText"
+        android:id="@+id/db_cathegoriesText"
         style="@style/StatisticsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,66 +119,39 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diskPlacesText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_diskPlacesText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/totalDistanceText"
+        android:id="@+id/db_totalDistanceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cathegoriesText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_cathegoriesText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/totalElevationText"
+        android:id="@+id/db_totalElevationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalDistanceText" />
+        app:layout_constraintTop_toBottomOf="@+id/db_totalDistanceText" />
 
     <TextView
         style="@style/StatisticsText"
-        android:id="@+id/totalControlNumberText"
+        android:id="@+id/db_totalControlNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalElevationText" />
-
-
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        style="?android:attr/progressBarStyleLargeInverse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorPrimaryDark"
-        android:ellipsize="none"
-        android:onClick="saveItem"
-        android:text="@string/save"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/progressBar1" />
+        app:layout_constraintTop_toBottomOf="@+id/db_totalElevationText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
