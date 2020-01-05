@@ -222,7 +222,7 @@ public class StatisticsService {
             mCountCompetitionText.setText(record.getCountCompetition());
             record.setTotalTime("Celkový čas v lese (hh:mm:ss): " + totalTime);
             mTotalTimeText.setText(record.getTotalTime());
-            record.setTotalLoss("Celková ztráta na vítěze (hh:mm:ss): " + totalLoss);
+            record.setTotalLoss("Celk. ztráta na vítěze (hh:mm:ss): " + totalLoss);
             mTotalLossText.setText(record.getTotalLoss());
             record.setMedalPlaces("Počet medailových umístění: " + medalPlaces);
             mMedalPlacesText.setText(record.getMedalPlaces());
@@ -260,7 +260,7 @@ public class StatisticsService {
             totalClimbing += competition.getClimbing();
             totalControls += competition.getControls();
             NumberFormat formatter = new DecimalFormat("#0.00");
-            record.setTotalDistance("Celková uběhnutá vzdálenost (km): " + formatter.format(totalDistance));
+            record.setTotalDistance("Celk. uběhnutá vzdálenost (km): " + formatter.format(totalDistance));
             mTotalDistanceText.setText(record.getTotalDistance());
             record.setTotalClimbing("Celkové převýšení (m): " + totalClimbing);
             mTotalElevationText.setText(record.getTotalClimbing());
