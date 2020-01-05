@@ -14,7 +14,7 @@
     <string name="loading">Loading...</string>
     <string name="no_search_term">Vraťte se zpět a vložte prosím registrační číslo závodníka</string>
     <string name="no_network">Ověřte prosím síťové připojení a zkuste znovu</string>
-    <string name="save"> Uložit záznam do DB </string>
+    <string name="save"> Uložit do DB </string>
     <string name="toast_message_save">Ukládám záznam do DB...</string>
     <string name="toast_message_delete_all">Mažu všechny záznamy z DB...</string>
     <string name="toast_message_delete_reg">Mažu záznamy dle reg. čísla z DB...</string>
