@@ -198,7 +198,7 @@ public class StatisticsService {
 
     private CompetitionAndId addUserResult(UserResult userResult) {
         CompetitionAndId competitionAndId = new CompetitionAndId();
-        if (userResult != null && userResult.getTime() != "") {
+        if (userResult != null && userResult.getTime() != "" && !userResult.getTime().equals("DNS")) {
             competitionAndId.setClassId(userResult.getClassId());
             listOfClasses.add(userResult.getClassComp());
             countEvents += 1;
